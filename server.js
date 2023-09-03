@@ -10,7 +10,7 @@ export const rootPath =
   process.env.NODE_ENV == "development" ? __dirname : process.env.DOMAIN_SERVER;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 app.get("/", (req, res) => {
   res.send("Hello");
 });
