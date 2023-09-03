@@ -6,16 +6,19 @@ const express = require("express");
 const GoogleDriveRouter = express.Router();
 GoogleDriveRouter.post(
   "/create/sound",
+  LimitMiddleware,
   MiddleWareTryCatch.HandleTryCatchMiddleware(GoogleDrive.createWithSound)
 )
   .post(
     "/create/translate/exactly",
+    LimitMiddleware,
     MiddleWareTryCatch.HandleTryCatchMiddleware(
       GoogleDrive.createOnlyTranslateEXactly
     )
   )
   .post(
     "/create/translate",
+    LimitMiddleware,
     MiddleWareTryCatch.HandleTryCatchMiddleware(GoogleDrive.createOnlyTranslate)
   );
 export default GoogleDriveRouter;
