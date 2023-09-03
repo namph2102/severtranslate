@@ -9,6 +9,9 @@ import "./src/api/listen/sub.redis";
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
+app.get("/", (req, res) => {
+  res.send("Hello");
+});
 ConnectDatabase();
 initRoutes(app);
 
