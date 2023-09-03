@@ -7,7 +7,6 @@ import { rootPath } from "../../server";
 import GoogleDrive from "../config/googledrive.config";
 import langs from "./languages";
 function renderCountry(lang = "en") {
-  console.log(langs[lang]);
   try {
     return langs[lang] || null;
   } catch (error) {
@@ -23,7 +22,7 @@ const saveSpeakFollowVoice = async (text, voice) => {
   });
 
   const url = rootPath + "/public/" + casual.uuid.substring(0, 8) + ".mp3";
-  console.log(url);
+
   await fs.writeFileSync(url, buffer);
   const result = await GoogleDrive.upLoadSound(url);
   return { sound: "https://drive.google.com/uc?id=" + result, id: result };

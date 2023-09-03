@@ -19,7 +19,6 @@ const LimitMiddleware = async (req, res, next) => {
       throw new Error("Sever is busy!");
     }
 
-    console.log({ status: true, message: numberRequest, timeExpire: ss });
     next();
   } catch (error) {
     res.status(503).json({
