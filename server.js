@@ -9,11 +9,13 @@ const { default: ConnectDatabase } = require("./src/config/database.config.js");
 import "./src/api/listen/sub.redis";
 
 export const rootPath =
-  process.env.NODE_ENV == "development" ? __dirname : process.env.DOMAIN_SERVER;
-console.log(__dirname);
+  process.env.NODE_ENV == "development"
+    ? __dirname
+    : process.env.DOMAIN_SERVER + "/app/";
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "public"));
 app.get("/", (req, res) => {
   res.send("Hello");
 });
