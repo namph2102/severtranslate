@@ -25,7 +25,6 @@ const saveSpeakFollowVoice = async (text, voice) => {
   // const url = rootPath + "/public/" + casual.uuid.substring(0, 8) + ".mp3";
   const url = "/" + casual.uuid.substring(0, 8) + ".mp3";
 
-  console.log(url, rootPath);
   await fs.writeFileSync(url, buffer);
   const result = await GoogleDrive.upLoadSound(url);
   return { sound: "https://drive.google.com/uc?id=" + result, id: result };
