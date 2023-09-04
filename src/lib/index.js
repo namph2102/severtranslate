@@ -3,7 +3,7 @@ const { getCodeSound } = require("./voices");
 const synthesize = require("./synthesize");
 const translate = require("./translate");
 const casual = require("casual");
-import { rootPath } from "../../server";
+
 import GoogleDrive from "../config/googledrive.config";
 import langs from "./languages";
 
@@ -32,7 +32,7 @@ const saveSpeakFollowVoice = async (text, voice) => {
 
 class translateBuilder {
   constructor(text, lang = "en") {
-    this.text = text;
+    this.text = text.toLowerCase().trim();
     this.lang = lang;
     this.error = `Server Not supported  sound with language -> ${this.lang}`;
     this.errTranslate = `Server Not supported  translate with language -> ${this.lang}`;
@@ -43,6 +43,7 @@ class translateBuilder {
     return translate(this.text, { to: lang })
       .then(async (newLang) => {
         const { sound, id } = await saveSpeakFollowVoice(newLang, lang);
+
         return {
           sound,
           idSound: id,

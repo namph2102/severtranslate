@@ -1,5 +1,6 @@
 const translateBuilder = require("../../lib");
 const events = require("events");
+import TranslateModel from "../model/Translate.model";
 export const eventEmitter = new events.EventEmitter();
 
 class GoogleDrive {
@@ -13,6 +14,14 @@ class GoogleDrive {
       throw new Error(result.message);
     } else {
       eventEmitter.emit("insertVocabIntoDatabase", JSON.stringify(result));
+    }
+    const soundCheck = await TranslateModel.findOne({
+      vocab: result.vocab_translate,
+      lang: result.lang,
+    });
+    if (soundCheck?.sound && soundCheck?.idSound) {
+      result.sound = soundCheck.sound;
+      result.idSound = soundCheck.idSound;
     }
     res.status(201).json(result);
   }

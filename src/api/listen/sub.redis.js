@@ -1,79 +1,60 @@
 import VocabModel from "../model/Vocab.model";
 import GoogleDrive from "../../config/googledrive.config";
 import { eventEmitter } from "../controller/googledrive.controller";
+import TranslateModel from "../model/Translate.model";
 
 eventEmitter.on("insertVocabIntoDatabase", async function (message) {
   try {
     const data = JSON.parse(message);
     if (data.vocab_translate) {
-      const vocab = data.vocab.trim().toLowerCase();
-      const { vocab_translate, lang, sound, idSound } = data;
-      let checkExtent = await VocabModel.findOne({
+      const { vocab_translate, lang, sound, idSound, vocab } = data;
+      let vocabFind = await VocabModel.findOne({
         vocab,
       });
-      if (!checkExtent) {
-        checkExtent = await VocabModel.create({
-          vocab,
-          listTranslate: {
+      if (!vocabFind) {
+        const result = await TranslateModel.create({
+          vocab: vocab_translate,
+          lang: lang,
+          sound,
+          idSound,
+        });
+
+        result._id &&
+          (await VocabModel.create({
+            vocab,
+            translate: result._id,
+          }));
+      } else {
+        // kiểm tra thử lang có trong ngô ngữ dịch không
+        const checkExtentInArray = await TranslateModel.findOne({
+          vocab: vocab_translate,
+          lang: lang,
+        });
+
+        if (!checkExtentInArray) {
+          const result = await TranslateModel.create({
             vocab: vocab_translate,
             lang: lang,
             sound,
             idSound,
-          },
-        });
-      } else {
-        const checkExtentInArray = await VocabModel.findOne({
-          vocab,
-          listTranslate: {
-            $elemMatch: {
-              lang: lang,
-            },
-          },
-        });
+          });
 
-        if (!checkExtentInArray) {
-          await VocabModel.findOneAndUpdate(
-            { vocab },
-            {
-              $push: {
-                listTranslate: {
-                  vocab: vocab_translate,
-                  lang: lang,
-                  sound,
-                  idSound,
-                },
-              },
-            }
-          );
+          result._id &&
+            (await VocabModel.findByIdAndUpdate(vocabFind._id, {
+              $push: { translate: result._id },
+            }));
         } else {
-          const getIdSoundOld = checkExtentInArray.listTranslate.find(
-            (item) => item.lang == lang
-          );
-
-          // Xóa file âm thanh cũ
-          if (getIdSoundOld) {
-            try {
-              getIdSoundOld?.idSound &&
-                (await GoogleDrive.deletefile(getIdSoundOld.idSound));
-            } catch (error) {}
+          if (checkExtentInArray.idSound) {
+            await GoogleDrive.deletefile(idSound);
+          } else {
+            checkExtentInArray._id &&
+              idSound &&
+              sound &&
+              (await TranslateModel.findByIdAndUpdate(checkExtentInArray._id, {
+                sound,
+                idSound,
+              }));
           }
-          //end Xóa file âm thanh cũ
-
-          // Chèn âm anh mới vào
-          sound &&
-            (await VocabModel.updateOne(
-              {
-                vocab,
-                "listTranslate.vocab": vocab_translate,
-                "listTranslate.lang": lang,
-              },
-              {
-                $set: {
-                  "listTranslate.$.sound": sound,
-                  "listTranslate.$.idSound": idSound,
-                },
-              }
-            ));
         }
       }
     }
