@@ -83,7 +83,6 @@ class GoogleDrive {
       await driveService.files.delete({
         fileId: fileId,
       });
-      console.log("Xóa file  thành công");
     } catch (error) {
       console.error("Lỗi xóa file:", error.message);
     }
@@ -96,8 +95,6 @@ function DeleteFileInServer(filePath) {
       console.error("Error deleting file:", err);
       return;
     }
-
-    console.log("File deleted successfully.");
   });
 }
 export default GoogleDrive;

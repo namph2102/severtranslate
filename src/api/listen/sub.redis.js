@@ -25,6 +25,9 @@ eventEmitter.on("insertVocabIntoDatabase", async function (message) {
             translate: result._id,
           }));
       } else {
+        if (!sound) {
+          return true;
+        }
         // kiểm tra thử lang có trong ngô ngữ dịch không
         const checkExtentInArray = await TranslateModel.findOne({
           vocab: vocab_translate,
