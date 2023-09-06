@@ -59,6 +59,10 @@ class GoogleDrive {
     } else {
       eventEmitter.emit("insertVocabIntoDatabase", JSON.stringify(result));
     }
+    try {
+      delete result.idSound;
+      delete result.sound;
+    } catch {}
     res.status(201).json(result);
   }
   static async createOnlyTranslateEXactly(req, res) {
@@ -70,6 +74,11 @@ class GoogleDrive {
     } else {
       eventEmitter.emit("insertVocabIntoDatabase", JSON.stringify(result));
     }
+    try {
+      delete result.idSound;
+      delete result.sound;
+    } catch {}
+
     res.status(201).json(result);
   }
 }

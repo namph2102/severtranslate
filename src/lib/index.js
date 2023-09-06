@@ -109,10 +109,13 @@ class translateBuilder {
         return {
           vocab: this.text,
           vocab_translate: newLang,
+          lang,
+          country: renderCountry(lang) || this.errTranslate,
+          lang_current: from,
+          country_current: renderCountry(from) || this.error,
           sound: null,
           idSound: null,
-          country: renderCountry(lang) || this.errTranslate,
-          lang,
+
           statusCode: 200,
         };
       })
