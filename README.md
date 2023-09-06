@@ -69,7 +69,7 @@ import {translateHaveSoundWithCurrent} from "translate-audio";
 
 //Ex1 ->translateHaveSoundWithCurrent return Promise
 
-translateHaveSoundWithCurrent("student", "en", "vi")
+translateHaveSoundWithCurrent("student", { from: "en", to: "vi" })
 .then(console.log)
 .catch(console.error);
 
@@ -89,7 +89,7 @@ translateHaveSoundWithCurrent("student", "en", "vi")
 
 //Ex2
 
-translateHaveSoundWithCurrent("student", "en", "ja")
+translateHaveSoundWithCurrent("student", { from: "en", to: "ja" })
 .then(console.log)
 .catch(console.error);
 
@@ -123,8 +123,6 @@ translate("contact", "vi")
 {
   vocab: 'học sinh',
   vocab_translate: 'pupil',
-  sound: null,
-  idSound: null,
   country: 'English',
   lang: 'en',
   statusCode: 200
@@ -138,19 +136,19 @@ import {translateExactly} from "translate-audio";
 
 ->⚡translateExactly return Promise
 
-translateExactly("học sinh", { from: "vi", to: "en" })
+translateExactly("học sinh", { from: "vi", to: "uk" })
 .then(console.log)
 .catch(console.error);
 
 
 ->😊😊 Result
 {
-  vocab: 'học sinh',
-  vocab_translate: 'pupil',
-  sound: null,
-  idSound: null,
-  country: 'English',
-  lang: 'en',
+  vocab: "học sinh",
+  vocab_translate: "учень",
+  lang: "uk",
+  country: "Ukrainian",
+  lang_current: "vi",
+  country_current: "Việt Nam",
   statusCode: 200
 }
 ```
