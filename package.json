@@ -13,7 +13,9 @@
     "@babel/core": "^7.22.11",
     "@babel/node": "^7.22.10",
     "@babel/preset-env": "^7.22.14",
+    "axios": "^1.5.1",
     "casual": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -22,6 +24,8 @@
     "nodemon": "^3.0.1",
     "path": "^0.12.7",
     "redis": "^4.6.8",
+    "request": "^2.88.2",
+    "text-to-image": "^5.2.0",
     "translate-google": "^1.5.0"
   }
 }
