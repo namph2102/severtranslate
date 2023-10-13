@@ -6,6 +6,7 @@ const express = require("express");
 const CambrigeRouter = express.Router();
 CambrigeRouter.post(
   "/dictionary",
+
   MiddleWareTryCatch.HandleTryCatchMiddleware(TranslateController.dictionary)
 )
   .post(

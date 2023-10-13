@@ -2,7 +2,7 @@
   "name": "backend",
   "scripts": {
     "dev": "nodemon --exec babel-node server.js",
-    "start": "node --exec babel-node server.js"
+    "start": "nodemon --exec babel-node server.js"
   },
   "engines": {
     "node": ">=14.20.1"
